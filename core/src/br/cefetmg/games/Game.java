@@ -23,10 +23,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Game extends ApplicationAdapter {
 
 	private SpriteBatch batch;
-	private Sprite goomba;
+	private Goomba goomba;
 	private Texture[] mapLevelsTextures;
-
-	float goombaSpeed, goombaX, goombaY;
 
 	/**
 	 * No método create colocamos código de inicialização do jogo. Por exemplo,
@@ -41,10 +39,7 @@ public class Game extends ApplicationAdapter {
 		mapLevelsTextures[0] = new Texture("map-level-1.png");
 		mapLevelsTextures[1] = new Texture("map-level-2.png");
 
-		goomba = new Sprite(new Texture("goomba.png"));
-		goombaSpeed = 50.0f;
-		goombaX = 30.0f;
-		goombaY = 10.0f;
+		goomba = new Goomba(new Texture("goomba.png"));
 
 		// cor de fundo da tela: branco
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -79,7 +74,7 @@ public class Game extends ApplicationAdapter {
 		batch.begin();
 		// desenhos são realizados aqui
 		batch.draw(mapLevelsTextures[0], 0, 0);
-		batch.draw(goomba, (int) goombaX, (int) goombaY);
+		goomba.render(batch);
 		batch.draw(mapLevelsTextures[1], 0, 0);
 		batch.end();
 	}
@@ -98,28 +93,7 @@ public class Game extends ApplicationAdapter {
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			Gdx.app.exit();
 		}
-		float deltaX = 0.0f, deltaY = 0.0f;
-		if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
-			deltaX -= Gdx.graphics.getDeltaTime() * goombaSpeed;
-		}
-		if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
-			deltaX += Gdx.graphics.getDeltaTime() * goombaSpeed;
-		}
-		if (Gdx.input.isKeyPressed(Keys.DPAD_UP)) {
-			deltaY += Gdx.graphics.getDeltaTime() * goombaSpeed;
-		}
-		if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
-			deltaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
-		}
-
-		float newGoombaX = goombaX + deltaX;
-		float newGoombaY = goombaY + deltaY;
-		if (newGoombaX >= 0.0f && newGoombaX <= mapLevelsTextures[0].getWidth() - goomba.getWidth()) {
-			goombaX = newGoombaX;
-		}
-		if (newGoombaY >= 0.0f && newGoombaY <= mapLevelsTextures[0].getHeight() - goomba.getHeight()) {
-			goombaY = newGoombaY;
-		}
+		goomba.update(delta, mapLevelsTextures[0]);
 	}
 
 }
