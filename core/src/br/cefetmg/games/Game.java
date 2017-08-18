@@ -39,7 +39,7 @@ public class Game extends ApplicationAdapter {
 		mapLevelsTextures[0] = new Texture("map-level-1.png");
 		mapLevelsTextures[1] = new Texture("map-level-2.png");
 
-		goomba = new Goomba(new Texture("goomba.png"));
+		goomba = new Goomba(new Texture("goomba-spritesheet.png"));
 
 		// cor de fundo da tela: branco
 		Gdx.gl.glClearColor(1, 1, 1, 1);
